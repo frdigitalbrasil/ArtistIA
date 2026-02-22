@@ -53,8 +53,8 @@ export async function POST(request: Request) {
       },
     });
 
-    // Cookie para o middleware proteger rotas (httpOnly em produção)
-    res.cookies.set("auth_token", token, {
+    // Cookie httpOnly para o middleware proteger rotas
+    res.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

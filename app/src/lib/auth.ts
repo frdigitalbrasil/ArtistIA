@@ -43,7 +43,7 @@ export async function getAuthPayload(request: Request): Promise<JWTPayload | nul
   if (!token) {
     const { cookies } = await import("next/headers");
     const cookieStore = await cookies();
-    token = cookieStore.get("auth_token")?.value ?? null;
+    token = cookieStore.get("token")?.value ?? null;
   }
   if (!token) return null;
   return verifyToken(token);

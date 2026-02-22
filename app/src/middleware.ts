@@ -7,7 +7,7 @@ const JWT_SECRET = new TextEncoder().encode(
 );
 
 async function verifyAuth(request: NextRequest): Promise<boolean> {
-  const token = request.cookies.get("auth_token")?.value;
+  const token = request.cookies.get("token")?.value;
   if (!token) return false;
   try {
     await jose.jwtVerify(token, JWT_SECRET);

@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     let token = getTokenFromRequest(request);
     if (!token) {
       const cookieStore = await cookies();
-      token = cookieStore.get("auth_token")?.value ?? null;
+      token = cookieStore.get("token")?.value ?? null;
     }
     if (!token) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
