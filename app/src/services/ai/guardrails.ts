@@ -1,0 +1,2 @@
+// Validação anti-alucinação
+export {};

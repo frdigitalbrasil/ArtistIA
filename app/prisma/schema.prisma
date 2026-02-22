@@ -1,0 +1,148 @@
+// Schema do banco de dados ArtistAI — PostgreSQL
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  phone         String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  artistas      Artista[]
+  planejamentos Planejamento[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Artista {
+  id              String   @id @default(cuid())
+  nome            String
+  nomeArtistico   String
+  genero          String
+  cidadeBase      String?
+  tempoCarreira   String?
+  objetivo        String?
+  foto            String?
+
+  instagram       String?
+  facebook        String?
+  spotify         String?
+  youtube         String?
+  tiktok          String?
+  kwai            String?
+
+  dadosColetados  Json?
+  ultimaColeta    DateTime?
+
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  planejamentos   Planejamento[]
+  diagnosticos    Diagnostico[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Diagnostico {
+  id              String   @id @default(cuid())
+  artistaId       String
+  artista         Artista  @relation(fields: [artistaId], references: [id])
+
+  spotifyData     Json?
+  youtubeData     Json?
+  instagramData   Json?
+  tiktokData      Json?
+  kwaiData        Json?
+  facebookData    Json?
+
+  tendencias      Json?
+  concorrentes    Json?
+
+  status          DiagnosticoStatus @default(PENDENTE)
+  createdAt       DateTime @default(now())
+}
+
+enum DiagnosticoStatus {
+  PENDENTE
+  PROCESSANDO
+  CONCLUIDO
+  ERRO
+}
+
+model Planejamento {
+  id              String   @id @default(cuid())
+  titulo          String
+  artistaId       String
+  artista         Artista  @relation(fields: [artistaId], references: [id])
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  conteudo        Json
+  pdfUrl          String?
+
+  modeloUsado     String   @default("gpt-4o")
+  tokensUsados    Int?
+  custoEstimado   Float?
+
+  avaliacao       Int?
+  comentario      String?
+
+  status          PlanejamentoStatus @default(GERANDO)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum PlanejamentoStatus {
+  GERANDO
+  CONCLUIDO
+  ERRO
+}
+
+model SystemPrompt {
+  id              String   @id @default(cuid())
+  nome            String   @unique
+  descricao       String?
+  conteudo        String   @db.Text
+  versao          Int      @default(1)
+  ativo           Boolean  @default(true)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model MemoriaDocumento {
+  id              String   @id @default(cuid())
+  titulo          String
+  tipo            String
+  conteudo        String   @db.Text
+  arquivo         String?
+  vetorizado      Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ChatWhatsApp {
+  id              String   @id @default(cuid())
+  telefone        String
+  userId          String?
+  mensagens       Json
+  contexto        Json?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

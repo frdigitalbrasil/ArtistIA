@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Planejamento Estratégico — {{ARTISTA_NOME}}</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #2a2a35;
+      --text: #e4e4e7;
+      --muted: #a1a1aa;
+      --primary: #ff3d00;
+      --primary-soft: rgba(255, 61, 0, 0.15);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .page {
+      page-break-after: always;
+      padding: 0 40px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .page:last-child { page-break-after: auto; }
+    .header-pdf {
+      position: running(header-pdf);
+      padding: 12px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      font-size: 9px;
+      color: var(--muted);
+    }
+    .header-pdf strong { color: var(--primary); }
+    .footer-pdf {
+      position: running(footer-pdf);
+      padding: 10px 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      font-size: 9px;
+      color: var(--muted);
+    }
+    @page {
+      size: A4;
+      margin: 0;
+    }
+    @page {
+      @top-center {
+        content: element(header-pdf);
+        vertical-align: middle;
+      }
+      @bottom-center {
+        content: element(footer-pdf);
+        vertical-align: middle;
+      }
+    }
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 40px;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+      border-bottom: 3px solid var(--primary);
+    }
+    .cover-logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+      margin-bottom: 50px;
+    }
+    .cover h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: var(--text);
+    }
+    .cover .subtitle {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .cover .date { font-size: 12px; color: var(--muted); }
+    .toc-page { padding-top: 40px; }
+    .toc-page h2 {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .toc-list { list-style: none; padding: 0; margin: 0; }
+    .toc-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+    .toc-list li a { color: var(--text); text-decoration: none; }
+    .toc-list li span { color: var(--muted); }
+    .section {
+      padding-top: 32px;
+      page-break-inside: avoid;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .section-content { color: var(--text); }
+    .section-content p { margin: 0 0 10px; }
+    .section-content ul, .section-content ol {
+      margin: 0 0 12px;
+      padding-left: 20px;
+    }
+    .section-content li { margin-bottom: 4px; }
+    .section-content h4 {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 14px 0 6px;
+      font-weight: 600;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 10px;
+      background: var(--surface);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    tr:last-child td { border-bottom: none; }
+    .timeline {
+      border-left: 3px solid var(--primary);
+      padding-left: 16px;
+      margin: 12px 0;
+    }
+    .timeline-item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-item strong { color: var(--primary); }
+    .blockquote {
+      border-left: 4px solid var(--primary);
+      padding-left: 14px;
+      margin: 12px 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="page cover">
+    <div class="cover-logo">ArtistAI</div>
+    <h1>{{ARTISTA_NOME}}</h1>
+    <p class="subtitle">Planejamento Estratégico de Marketing Digital</p>
+    <p class="date">{{DATA}}</p>
+  </div>
+  <div class="page toc-page">
+    <h2>Sumário</h2>
+    <ul class="toc-list">
+      {{SUMARIO}}
+    </ul>
+  </div>
+  {{SECTIONS}}
+</body>
+</html>

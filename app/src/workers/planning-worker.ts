@@ -1,0 +1,2 @@
+// Worker: gera planejamento
+export {};

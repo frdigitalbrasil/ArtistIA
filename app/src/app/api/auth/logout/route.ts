@@ -1,0 +1,14 @@
+import { NextResponse } from "next/server";
+
+// POST /api/auth/logout — limpa o cookie de autenticação
+export async function POST() {
+  const res = NextResponse.json({ ok: true });
+  res.cookies.set("auth_token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 0,
+    path: "/",
+  });
+  return res;
+}

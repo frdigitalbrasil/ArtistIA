@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+npm-debug.log*
+.pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+.next
+out
+dist
+build
+
+# Git
+.git
+.gitignore
+
+# IDE / OS
+.idea
+.vscode
+*.swp
+.DS_Store
+Thumbs.db
+
+# Env (use docker env instead)
+.env
+.env.local
+.env.*.local
+
+# Test / coverage
+coverage
+.nyc_output
+*.test.*
+*.spec.*
+
+# Misc
+README.md
+*.md
+.cursor
+.cursorignore

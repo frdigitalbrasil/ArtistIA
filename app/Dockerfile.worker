@@ -1,0 +1,35 @@
+# ============================================
+# ArtistAI — Workers de background
+# Mesma base do app + Chromium (para futuros jobs com Puppeteer)
+# ============================================
+
+FROM node:20-alpine AS base
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+FROM base AS deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev
+
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json ./
+COPY prisma ./prisma
+COPY scripts ./scripts
+COPY src ./src
+
+RUN npx prisma generate
+
+# Workers ainda não têm build separado; manter processo vivo até implementação
+CMD ["node", "scripts/run-workers.js"]
